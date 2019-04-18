@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import eightbitlab.com.blurview.BlurView;
 
 public class MainActivity extends AppCompatActivity {
+
     @BindView(R.id.viewPager)
     ViewPager viewPager;
     @BindView(R.id.tabLayout)
@@ -55,15 +56,17 @@ public class MainActivity extends AppCompatActivity {
         //set background, if your root layout doesn't have one
         final Drawable windowBackground = getWindow().getDecorView().getBackground();
 
-        final BlurView.ControllerSettings topViewSettings = topBlurView.setupWith(root)
-                .windowBackground(windowBackground)
-                .blurAlgorithm(new SupportRenderScriptBlur(this))
-                .blurRadius(radius);
+        topBlurView.setupWith(root)
+                .setFrameClearDrawable(windowBackground)
+                .setBlurAlgorithm(new SupportRenderScriptBlur(this))
+                .setBlurRadius(radius)
+                .setHasFixedTransformationMatrix(true);
 
-        final BlurView.ControllerSettings bottomViewSettings = bottomBlurView.setupWith(root)
-                .windowBackground(windowBackground)
-                .blurAlgorithm(new SupportRenderScriptBlur(this))
-                .blurRadius(radius);
+        bottomBlurView.setupWith(root)
+                .setFrameClearDrawable(windowBackground)
+                .setBlurAlgorithm(new SupportRenderScriptBlur(this))
+                .setBlurRadius(radius)
+                .setHasFixedTransformationMatrix(true);
 
         int initialProgress = (int) (radius * step);
         radiusSeekBar.setProgress(initialProgress);
@@ -73,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 float blurRadius = progress / step;
                 blurRadius = Math.max(blurRadius, minBlurRadius);
-                topViewSettings.blurRadius(blurRadius);
-                bottomViewSettings.blurRadius(blurRadius);
+                topBlurView.setBlurRadius(blurRadius);
+                bottomBlurView.setBlurRadius(blurRadius);
             }
         });
     }
