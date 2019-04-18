@@ -7,6 +7,9 @@ ext {
     PUBLISH_ARTIFACT_ID = 'blurview'
 }
 
+group='com.github.searchy2'
+version = '2.5.1'
+
 def getVersionName() {
     def stdout = new ByteArrayOutputStream()
     exec {
